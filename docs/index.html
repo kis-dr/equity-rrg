@@ -396,8 +396,7 @@ function render(){
     `X=<code>RSI</code> · Y=<code>1년 초과수익률</code> · 생성 ${String(m.generated).replace('T',' ')}`;
   document.getElementById('foot').innerHTML =
     `축은 원본 스케일(기준선 X=50 / Y=0). X축=RSI는 절대 모멘텀, Y축=벤치마크 대비 1년 초과수익률. `+
-    `조회기간 = 꼬리 길이만큼 폭이 고정된 창을 타임라인에서 드래그해 관측 시점을 지정. `+
-    `StockCharts의 JdK RS-Ratio/Momentum(비공개 방식)과는 지표·정규화가 다릅니다.`;
+    `조회기간 = 꼬리 길이만큼 폭이 고정된 창을 타임라인에서 드래그해 관측 시점을 지정. `;
 
   // 꼬리 슬라이더/입력 (1..30)
   const tailEl = document.getElementById('tail');
