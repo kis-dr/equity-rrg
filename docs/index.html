@@ -110,7 +110,7 @@ var Fr={},Gr={};var Wr,Hr=function(){function t(t,e,n){var i=this;this._sleepAft
 <body>
 <div class="wrap">
   <header>
-    <h1>Equity RRG<span class="sub">섹터 상대순환도 · 실데이터 미리보기(yfinance · 최근 10년)</span></h1>
+    <h1>Equity RRG<span class="sub">섹터 상대순환도</span></h1>
     <div class="meta" id="meta">불러오는 중…</div>
   </header>
 
@@ -393,7 +393,7 @@ function render(){
   document.getElementById('meta').innerHTML =
     `데이터 <code>${DATA.dates[0]}</code> ~ <code>${DATA.dates[n-1]}</code> `+
     `· ${m.n_weeks}주(주간) · ${m.n_series}개 시리즈 · `+
-    `X=<code>RSI</code> · Y=<code>1년 초과수익률</code> · 생성 ${String(m.generated).replace('T',' ')}`;
+    `X=<code>RSI</code> · Y=<code>1년 초과수익률</code> · 생성 ${String(m.generated).slice(0,10)}`;
   document.getElementById('foot').innerHTML =
     `축은 원본 스케일(기준선 X=50 / Y=0). X축=RSI는 절대 모멘텀, Y축=벤치마크 대비 1년 초과수익률. `+
     `조회기간 = 꼬리 길이만큼 폭이 고정된 창을 타임라인에서 드래그해 관측 시점을 지정. `;
