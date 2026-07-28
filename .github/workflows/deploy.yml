@@ -27,7 +27,7 @@ jobs:
       - run: pip install -r requirements.txt
       - run: python build_data.py
         env:
-          HISTORY_YEARS: "10"
+          HISTORY_YEARS: "5"
           RESAMPLE: "W-FRI"
       - uses: actions/upload-pages-artifact@v3
         with:
