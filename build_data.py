@@ -14,7 +14,7 @@ yfinance로 S&P 500 섹터/스타일 ETF를 받아 RRG용 docs/data.json 생성.
   · 계산은 노트북과 동일하게 "일별"로 수행하고, 차트 표시용으로만 주간 샘플링합니다.
     (RETURN_DAYS=63 ~ 3개월, RSI_N=14일)
 
-축: X = RSI(모멘텀), Y = 초과성과 %(상대강도). 기준선 X=50 / Y=0.
+축: X = RSI(상대강도), Y = 초과성과 %(모멘텀). 기준선 X=50 / Y=0.
 프론트 축은 고정(RSI 20~80, 초과성과 -30~+30)이며 이 값은 data.json meta에 담습니다.
 
 환경변수:
@@ -171,8 +171,8 @@ def main() -> None:
             "history_years": HISTORY_YEARS,
             "return_days": RETURN_DAYS,
             "rsi_n": RSI_N,
-            "x_metric": "RSI (모멘텀)",
-            "y_metric": f"{RETURN_DAYS}영업일 초과성과 % (상대강도)",
+            "x_metric": f"RSI({RSI_N}) (상대강도)",
+            "y_metric": f"{RETURN_DAYS}영업일 초과성과 % (모멘텀)",
             "x_center": 50.0, "y_center": 0.0,
             "x_min": X_MIN, "x_max": X_MAX,
             "y_min": Y_MIN, "y_max": Y_MAX,
