@@ -411,11 +411,17 @@ function render(){
   state.tailLen  = Math.min(DEFAULT_TAIL, n);
   state.startIdx = clampStart(n - state.tailLen);
 
+  // 영업일 수를 사람이 읽는 기간으로 환산 (월 ≈ 21영업일). RETURN_DAYS가 바뀌어도 문구가 어긋나지 않게.
+  const approxPeriod = (days)=>{
+    const mo = Math.round(days / 21);
+    return mo >= 12 ? `약 ${+(mo / 12).toFixed(1)}년` : `약 ${mo}개월`;
+  };
   document.getElementById('foot').innerHTML =
     `데이터 ${DATA.dates[0]} ~ ${DATA.dates[n-1]} · ${m.n_weeks}주(주간) · ${m.n_series}개 시리즈 · `+
     `생성 ${String(m.generated).slice(0,10)}. `+
     `축 고정: RSI ${m.x_min}~${m.x_max}, 초과성과 ${m.y_min}~${m.y_max}% (기준선 X=50 / Y=0). `+
-    `${m.return_days}영업일(약 3개월) 수익률과 와일더 RSI(${m.rsi_n}일)를 일별로 계산한 뒤 주간(금요일)으로 샘플링했습니다. `+
+    `${m.return_days}영업일(${approxPeriod(m.return_days)}) 수익률과 와일더 RSI(${m.rsi_n}일)를 `+
+    `일별로 계산한 뒤 주간(금요일)으로 샘플링했습니다. `+
     `벤치마크는 S&amp;P 500(SPY). 고정 축 범위를 벗어나는 값은 화면에 표시되지 않습니다. `+
     `StockCharts의 JdK RS-Ratio/Momentum(비공개 방식)과는 지표·정규화가 다릅니다.`;
 
