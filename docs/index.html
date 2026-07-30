@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>KIS Research - Equity Relative Rotation Graph — 주식 로테이션 차트</title>
+<title>Equity RRG — 주식 로테이션 그래프</title>
 <script src="./echarts.min.js"></script>
 <style>
   :root{
     --bg:#ffffff; --ink:#1a1c1f; --muted:#6b7280; --line:#e7e8ea; --accent:#1f6feb;
-    --q1:#2ea043;   /* 1사분면 Leading   */
-    --q2:#1f6feb;   /* 2사분면 Improving */
-    --q3:#d33a49;   /* 3사분면 Lagging   */
-    --q4:#c98a00;   /* 4사분면 Weakening */
+    --q1:#2ea043;   /* 1사분면 */
+    --q2:#1f6feb;   /* 2사분면 */
+    --q3:#d33a49;   /* 3사분면 */
+    --q4:#c98a00;   /* 4사분면 */
     --font:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',system-ui,'Segoe UI',sans-serif;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -64,8 +64,13 @@
   #chart{width:100%;height:520px}
 
   footer{margin-top:20px;border-top:1px solid var(--line);padding-top:14px}
-  footer p{font-size:12.5px;color:#4b5563;line-height:1.75;margin:0 0 12px}
-  footer .note{font-size:11.5px;color:var(--muted);line-height:1.7;margin:0}
+  /* 본문 설명: 가장 잘 보이게 */
+  footer p{font-size:13.5px;color:#2b2f36;line-height:1.8;margin:0 0 14px;letter-spacing:-.005em}
+  /* 기술 주석: 한 단계 연하게 */
+  footer .note{font-size:11.5px;color:var(--muted);line-height:1.7;margin:0 0 16px}
+  /* 컴플라이언스: 화면 최하단, 가장 연하게 */
+  footer .compliance{font-size:11px;color:#a1a6ad;line-height:1.65;margin:0;
+    border-top:1px solid #f1f2f3;padding-top:12px}
 
   /* ── 모바일 ─────────────────────────────────────────── */
   @media (max-width:760px){
@@ -80,7 +85,9 @@
     .sectors{gap:11px 13px;padding:10px 11px}
     .chip{font-size:12.5px}
     .chip input{width:17px;height:17px}
-    footer p{font-size:12px}
+    footer p{font-size:12.5px;line-height:1.75}
+    footer .note{font-size:11px}
+    footer .compliance{font-size:10.5px;line-height:1.6}
   }
   @media (max-width:420px){
     input[type=range]{width:104px}
@@ -91,7 +98,7 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>Equity RRG<span class="sub">주식 로테이션 그래프</span></h1>
+    <h1>KIS Equity RRG<span class="sub">주식 로테이션 그래프</span></h1>
     <div class="err" id="err"></div>
   </header>
 
@@ -129,14 +136,18 @@
   <div id="chart"></div>
 
   <footer>
-    <p><br>주식 로테이션 그래프는 주식시장의 모멘텀과 상대성과를 비교해, 섹터와 스타일의 로테이션을 확인하기 위한 기술적 분석 툴입니다. 가로축은 RSI(상대강도)를, 세로축은 시장대비 초과성과(모멘텀)를 의미합니다. 
-    그래프는 투자심리와 투자자금의 유출입 변화를 반영해 4개의 분면을 이동합니다. 과거 이동 궤적을 이용해 높은 상대강도와 강한 모멘텀을 보이며 1분면으로 이동하고 있는 섹터와 스타일을 파악할 수 있습니다. </br></p>
-    <p>본 자료는 고객의 증권투자를 돕기 위하여 작성된 당사의 저작물로서 모든 저작권은 당사에게 있으며, 당사의 동의 없이 어떤 형태로든 복제, 배포, 전송, 변형할 수 없습니다. 
-      본 자료는 리서치센터에서 수집한 자료 및 정보를 기초로 작성된 것이나 당사가 그 자료 및 정보의 정확성이나 완전성을 보장할 수는 없으므로 당사는 본 자료로써 고객의 투자 결과에 대한 어떠한 보장도 행하는 것이 아닙니다. 
-      최종적 투자 결정은 고객의 판단에 기초한 것이며 본 자료는 투자 결과와 관련한 법적 분쟁에서 증거로 사용될 수 없습니다. 
-      본 자료에 제시된 종목들은 리서치센터에서 수집한 자료 및 정보 또는 계량화된 모델을 기초로 작성된 것이나, 당사의 공식적인 의견과는 다를 수 있습니다. 
-      이 자료에 게재된 내용들은 작성자의 의견을 정확하게 반영하고 있으며, 외부의 부당한 압력이나 간섭 없이 작성되었음을 확인합니다.</p>
+    <p>주식 로테이션 그래프는 주식시장의 모멘텀과 상대성과를 비교해, 섹터와 스타일의 로테이션을 확인하기 위한 기술적 분석 툴입니다.
+      가로축은 RSI(상대강도)를, 세로축은 시장대비 초과성과(모멘텀)를 의미합니다.
+      그래프는 투자심리와 투자자금의 유출입 변화를 반영해 4개의 분면을 이동합니다.
+      과거 이동 궤적을 이용해 높은 상대강도와 강한 모멘텀을 보이며 1분면으로 이동하고 있는 섹터와 스타일을 파악할 수 있습니다.</p>
     <p class="note" id="foot"></p>
+    <p class="compliance">본 자료는 고객의 증권투자를 돕기 위하여 작성된 당사의 저작물로서 모든 저작권은 당사에게 있으며,
+      당사의 동의 없이 어떤 형태로든 복제, 배포, 전송, 변형할 수 없습니다.
+      본 자료는 리서치센터에서 수집한 자료 및 정보를 기초로 작성된 것이나 당사가 그 자료 및 정보의 정확성이나 완전성을 보장할 수는 없으므로
+      당사는 본 자료로써 고객의 투자 결과에 대한 어떠한 보장도 행하는 것이 아닙니다.
+      최종적 투자 결정은 고객의 판단에 기초한 것이며 본 자료는 투자 결과와 관련한 법적 분쟁에서 증거로 사용될 수 없습니다.
+      본 자료에 제시된 종목들은 리서치센터에서 수집한 자료 및 정보 또는 계량화된 모델을 기초로 작성된 것이나, 당사의 공식적인 의견과는 다를 수 있습니다.
+      이 자료에 게재된 내용들은 작성자의 의견을 정확하게 반영하고 있으며, 외부의 부당한 압력이나 간섭 없이 작성되었음을 확인합니다.</p>
   </footer>
 </div>
 
