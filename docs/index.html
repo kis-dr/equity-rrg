@@ -63,14 +63,11 @@
   /* 높이는 JS(sizeChart)가 플롯 영역이 정사각형에 가깝도록 계산해 설정한다 */
   #chart{width:100%;height:520px}
 
-  footer{margin-top:20px;border-top:1px solid var(--line);padding-top:14px}
-  /* 본문 설명: 가장 잘 보이게 */
-  footer p{font-size:13.5px;color:#2b2f36;line-height:1.8;margin:0 0 14px;letter-spacing:-.005em}
-  /* 기술 주석: 한 단계 연하게 */
-  footer .note{font-size:11.5px;color:var(--muted);line-height:1.7;margin:0 0 16px}
+  /* 제목 아래 설명문: 가장 잘 보이게 */
+  .intro{font-size:13.5px;color:#2b2f36;line-height:1.8;margin:11px 0 0;letter-spacing:-.005em}
+  footer{margin-top:22px;border-top:1px solid var(--line);padding-top:13px}
   /* 컴플라이언스: 화면 최하단, 가장 연하게 */
-  footer .compliance{font-size:11px;color:#a1a6ad;line-height:1.65;margin:0;
-    border-top:1px solid #f1f2f3;padding-top:12px}
+  footer .compliance{font-size:11px;color:#a1a6ad;line-height:1.65;margin:0}
 
   /* ── 모바일 ─────────────────────────────────────────── */
   @media (max-width:760px){
@@ -85,8 +82,7 @@
     .sectors{gap:11px 13px;padding:10px 11px}
     .chip{font-size:12.5px}
     .chip input{width:17px;height:17px}
-    footer p{font-size:12.5px;line-height:1.75}
-    footer .note{font-size:11px}
+    .intro{font-size:12.5px;line-height:1.75;margin-top:9px}
     footer .compliance{font-size:10.5px;line-height:1.6}
   }
   @media (max-width:420px){
@@ -98,7 +94,11 @@
 <body>
 <div class="wrap">
   <header>
-    <h1>KIS Equity RRG<span class="sub">주식 로테이션 그래프</span></h1>
+    <h1>KIS Equity Rotation Graph<span class="sub">주식 로테이션 그래프</span></h1>
+    <p class="intro">주식 로테이션 그래프는 주식시장의 모멘텀과 상대성과를 비교해, 섹터와 스타일의 로테이션을 확인하기 위한
+      기술적 분석 툴입니다. 가로축은 RSI(상대강도)를, 세로축은 시장대비 초과성과(모멘텀)를 의미합니다.
+      그래프는 투자심리와 투자자금의 유출입 변화를 반영해 4개의 분면을 이동합니다.
+      과거 이동 궤적을 이용해 높은 상대강도와 강한 모멘텀을 보이며 1분면으로 이동하고 있는 섹터와 스타일을 파악할 수 있습니다.</p>
     <div class="err" id="err"></div>
   </header>
 
@@ -136,11 +136,6 @@
   <div id="chart"></div>
 
   <footer>
-    <p>주식 로테이션 그래프는 주식시장의 모멘텀과 상대성과를 비교해, 섹터와 스타일의 로테이션을 확인하기 위한 기술적 분석 툴입니다.
-      가로축은 RSI(상대강도)를, 세로축은 시장대비 초과성과(모멘텀)를 의미합니다.
-      그래프는 투자심리와 투자자금의 유출입 변화를 반영해 4개의 분면을 이동합니다.
-      과거 이동 궤적을 이용해 높은 상대강도와 강한 모멘텀을 보이며 1분면으로 이동하고 있는 섹터와 스타일을 파악할 수 있습니다.</p>
-    <p class="note" id="foot"></p>
     <p class="compliance">본 자료는 고객의 증권투자를 돕기 위하여 작성된 당사의 저작물로서 모든 저작권은 당사에게 있으며,
       당사의 동의 없이 어떤 형태로든 복제, 배포, 전송, 변형할 수 없습니다.
       본 자료는 리서치센터에서 수집한 자료 및 정보를 기초로 작성된 것이나 당사가 그 자료 및 정보의 정확성이나 완전성을 보장할 수는 없으므로
@@ -419,23 +414,9 @@ function buildSectors(){
 }
 
 function render(){
-  const m = DATA.meta, n = DATA.dates.length;
+  const n = DATA.dates.length;
   state.tailLen  = Math.min(DEFAULT_TAIL, n);
   state.startIdx = clampStart(n - state.tailLen);
-
-  // 영업일 수를 사람이 읽는 기간으로 환산 (월 ≈ 21영업일). RETURN_DAYS가 바뀌어도 문구가 어긋나지 않게.
-  const approxPeriod = (days)=>{
-    const mo = Math.round(days / 21);
-    return mo >= 12 ? `약 ${+(mo / 12).toFixed(1)}년` : `약 ${mo}개월`;
-  };
-  document.getElementById('foot').innerHTML =
-    `데이터 ${DATA.dates[0]} ~ ${DATA.dates[n-1]} · ${m.n_weeks}주(주간) · ${m.n_series}개 시리즈 · `+
-    `생성 ${String(m.generated).slice(0,10)}. `+
-    `축 고정: RSI ${m.x_min}~${m.x_max}, 초과성과 ${m.y_min}~${m.y_max}% (기준선 X=50 / Y=0). `+
-    `${m.return_days}영업일(${approxPeriod(m.return_days)}) 수익률과 와일더 RSI(${m.rsi_n}일)를 `+
-    `일별로 계산한 뒤 주간(금요일)으로 샘플링했습니다. `+
-    `벤치마크는 S&amp;P 500(SPY). 고정 축 범위를 벗어나는 값은 화면에 표시되지 않습니다. `+
-    `StockCharts의 JdK RS-Ratio/Momentum(비공개 방식)과는 지표·정규화가 다릅니다.`;
 
   const tailEl = document.getElementById('tail');
   const tailNum = document.getElementById('tailVal');
