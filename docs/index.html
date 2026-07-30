@@ -20,6 +20,9 @@
   .wrap{max-width:1180px;margin:0 auto;padding:20px 20px 40px}
 
   header{border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:14px}
+  .head-row{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}
+  /* 로고 원본 348x70 (5:1) — 높이만 지정해 비율 유지 */
+  .logo{height:30px;width:auto;flex:0 0 auto;margin-top:2px}
   h1{font-size:22px;font-weight:800;letter-spacing:-.02em;margin:0 0 2px}
   h1 .sub{font-weight:600;color:var(--muted);font-size:14px;margin-left:8px}
   .err{font-size:12.5px;color:#b91c1c;margin-top:6px;line-height:1.6}
@@ -74,6 +77,8 @@
     .wrap{padding:14px 13px 28px}
     h1{font-size:18px}
     h1 .sub{display:block;margin:3px 0 0;font-size:12.5px}
+    .head-row{gap:12px}
+    .logo{height:22px;margin-top:1px}
     .meta{font-size:11.5px}
     .controls{gap:12px 16px;margin:12px 0 8px}
     .ctl{font-size:12.5px;gap:8px}
@@ -88,13 +93,18 @@
   @media (max-width:420px){
     input[type=range]{width:104px}
     .ctl{font-size:12px}
+    .logo{height:19px}
   }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1>KIS Equity Rotation Graph<span class="sub">주식 로테이션 그래프</span></h1>
+    <div class="head-row">
+      <h1>KIS Equity Rotation Graph<span class="sub">주식 로테이션 그래프</span></h1>
+      <img class="logo" src="./kis-logo.png" alt="한국투자증권"
+           onerror="this.onerror=null;this.src='https://securities.koreainvestment.com/ems/kis/research/img/head_img_logoN_2.png';" />
+    </div>
     <p class="intro">주식 로테이션 그래프는 주식시장의 모멘텀과 상대성과를 비교해, 섹터와 스타일의 로테이션을 확인하기 위한
       기술적 분석 툴입니다. 가로축은 RSI(상대강도)를, 세로축은 시장대비 초과성과(모멘텀)를 의미합니다.
       그래프는 투자심리와 투자자금의 유출입 변화를 반영해 4개의 분면을 이동합니다.
